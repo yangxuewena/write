@@ -1,0 +1,55 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 8 2018}
+
+\title{Maximum Persistency via Iterative Relaxed Inference with Graphical Models}
+\begin{document}
+\maketitle
+\begin{abstract}
+The author consider the NP-hard problem of MAP-inference for graphical models. We propose a polynomial time practically efficient algorithm for finding a part of its optimal solution. Specifically,the algorithm marks each label in each node of the considered graphical model either as (i)
+optimal, meaning that it belongs to all optimal solutions of the inference problem; (ii) non-optimal if it provably does not belong to any solution; or (iii) undefined, which means our algorithm can not make a decision regarding the label.Moreover,the author prove optimality of our approach: it delivers in a certain sense the largest total number of labels marked as optimal or non-optimal.They demonstrate superiority of
+the approach on problems from machine learning and computer vision benchmarks.
+\end{abstract}
+\section{Introduction}
+The author consider the energy minimization problem, known also as inference of maximum a posteriori (MAP) or maximum likelihood estimate (MLE) for graphical models.In the most common pairwise case this problem reads:
+$$
+\min_{x\in X} E_{f}(x):=f_0+\sum_{\upsilon \in \nu}f_{\upsilon}(x_\upsilon)+\sum_{\upsilon \mu \in \varepsilon}f_{\upsilon\mu}(x_\mu,x_\upsilon)
+$$
+The problem has numerous applications in computer vision, machine learning, communication theory, signal processing, information retrieval and statistical physics,see\cite{Andres2015A}\cite{Wainwright2008Graphical} for an overview of applications. Problem can be represented as an integer linear program and is known to be NP-hard in general. Approximative algorithms do not guarantee optimality of the found solution and moreover, apart from the roof dual relaxation ,they do not guarantee optimality of any part of the found solution.
+
+In this paper the author show how some of these approximative methods (addressing convex relaxations of the problem can be used to identify a part of a provably optimal solution or to decrease the state space of variables.Such a reduction of the original problem is often sufficient to make it solvable exactly by (non-polynomial) combinatorial solvers.
+
+All existing methods identifying persistency are based on tractable sufficient conditions in order to avoid solving the NP-hard problem. Dead-end elimination methods (DEE)\cite{Desmet1992The} verify local sufficient conditions by inspecting a given node and its immediate neighbors at a time. The roof dual relaxation in quadratic pseudo-Boolean Optimization (QPBO, see and references therein) has the property that all variables that are integer in the relaxed solution are persistent. Several generalizations of roof duality to higher-order models were proposed(e.g.,). The MQPBO method and generalized roof duality extend roof duality to the multi-label case by reducing the problem to binary variables and generalizing
+the concept of submodular relaxation, respectively.Kovtun proposed a sufficient condition to identify persistencies based on specially constructed auxiliary submodular problems. A persistency approach utilizing standard scalable (approximate) MAP-inference algorithms has been
+developed recently for Potts models and for general MRFs. It uses the local polytope relaxation and has shown superior results on several datasets.
+
+The recent work by Shekhovtsov\cite{Shekhovtsov2014Maximum} explains all mentioned methods addressing pairwise models in a common framework. He proposes a formulation of the problem of determining the maximum number of persistencies as a polynomially solvable linear program. It guarantees to find a provably larger persistency assignment than most of the mentioned approaches. Unfortunately, there are no efficient specialized solvers available for this linear program and therefore it is not practical in large scale applications.
+\section{Conclusions and Outlook}
+The author presented an approach to find persistencies for a certain class of NP-hard problems employing only a solver for a convex relaxation. Using a suboptimal solver for the relaxed problem,they still correctly identify persistencies while the whole approach becomes scalable.Their
+method with an exact solver matches the maximum persistency and with a suboptimal solver closely approximates it, outperforming state of the art persistency techniques. The speedups they have developed allow to achieve this at a reasonable computational cost making the method much more practical than the works they build on. In fact,this approach takes an approximate solver,like TRW-S, and turns it into a method with partial optimality guarantees at a reasonable computation overhead.
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
