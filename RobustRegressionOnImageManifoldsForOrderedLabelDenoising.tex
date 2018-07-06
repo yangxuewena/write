@@ -1,0 +1,51 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 6 2018}
+
+\title{Robust Regression on Image Manifolds for Ordered Label Denoising}
+\begin{document}
+\maketitle
+\begin{abstract}
+In this paper,the author present a computationally efficient and non-parametric method for robust regression on manifolds.The author apply the algorithm to the problem of correcting mislabeled examples from image collections with ordered (e.g.,real-valued, ordinal) labels.Compared to related methods for robust regression,their method achieves superior denoising accuracy on a variety of data sets, with label corruption levels as high as 80\%.For a diverse set of widely-used,large-scale,publicly-available data sets,their approach results in image labels that more accurately describe the associated images.
+\end{abstract}
+\section{Introduction}
+Given the availability of images from the Web and increasingly cheap sensors and storage,amassing large image sets is relatively low-cost both in terms of effort and computational resources. However, obtaining the associated labels, necessary for supervised learning, is often a time-consuming, manual process that is becoming decreasingly viable with the staggering increase in the size of image collections. A recent trend is to acquire image labels via crowdsourcing or co-located sensors. These approaches effectively automate the label collection process, allowing for the rapid creation of labeled data sets at scales previously impossible. However, label accuracy often suffers. For example, Figure~\ref{fig:1} shows representative images from two publicly-available computer vision data sets (AMOS\cite{Jacobs2007Consistent} and Geofaces\cite{Islam2014Exploring}) and the associated labels, including instances of mislabeled images. The goal of this paper is to correct mislabeled examples for image sets with ordered labels.While there has been work that addresses the classification variant of this problem (i.e., categorical labels or ¡°tags¡±), there has not been much work for the problem of denoising real-valued or ordinal labels.
+\begin{figure}
+\centering
+\includegraphics{1}
+\caption{Importance of context for object recognition. Without the context (face), it is hard to recognize the black curve in the middle area as a nose.}
+\label{fig:1}
+\end{figure}
+In this paper,the author present a method to address the problem of denoising ordered labels from natural image sets.The author take advantage of the fact that these data sets contain semantically-related images whose relationship can be exploited to learn a smooth function of the labels with respect to the images. From this point of view, the problem can be framed as robust regression in the high-dimensional domain of images. Unlike traditional robust regression methods,this method incorporates the observation that many natural image sets, although embedded in high-dimensional spaces,have only a few underlying causes of change that are usually semantically meaningful and correlated with the visual concept described by the image labels.The author further combine this manifold assumption with sparse regularization,which allows this method to learn the underlying dependency between images and labels even with very high rate of label corruption.
+\section{RelatedWork}
+There has been a lot of work in the area of denoising categorical labels (e.g.,\cite{Fergus2009Semi}) and the general problem of robust classification with mislabeled examples (e.g.,\cite{Natarajan2013Learning}).This work is the first to consider this problem in the context of regression, with ordinal or realvalued labels. While most regression techniques are somewhat tolerant to noise, they are generally not designed to handle large amounts of corruption found in the labels from real-world images sets. The problem, and this proposed approach are most closely related to robust regression and manifold regularization, specifically for high-dimensional ambient spaces.
+\section{Conclusion}
+The author presented an algorithm for robust regression on image manifolds and applied it to the problem of ordered label denoising for natural image sets. While the bulk of the algorithms and data sets for supervised learning in computer vision address classification, or categorization problems,there are important problems that rely on ordered output,such as articulated pose estimation and biomedical shape variation analysis, in addition to the examples presented in this paper.This work is one of the first to address this underserved area.The non-parametric and computationally efficient algorithm implicitly allows for the interpretation of ordered labels as a perceptually meaningful organization of the associated images and outperforms related regression methods on a variety of denoising tasks, including image collections with complex, multidimensional labels and over 70\% label corruption.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
+
