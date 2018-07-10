@@ -1,0 +1,121 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 10 2018}
+
+\title{Learning a Convolutional Neural Network for Non-uniform
+Motion Blur Removal}
+\begin{document}
+\maketitle
+\begin{abstract}
+In this paper,the author address the problem of estimating and
+removing non-uniform motion blur from a single blurry image.
+They propose a deep learning approach to predicting
+the probabilistic distribution of motion blur at the patch
+level using a convolutional neural network (CNN).They further
+extend the candidate set of motion kernels predicted
+by the CNN using carefully designed image rotations. A
+Markov random field model is then used to infer a dense
+non-uniform motion blur field enforcing motion smoothness.
+Finally, motion blur is removed by a non-uniform deblurring
+model using patch-level image prior. Experimental
+evaluations show that this approach can effectively estimate
+and remove complex non-uniform motion blur that is not
+handled well by previous approaches.
+\end{abstract}
+\section{Introduction}
+Image deblurring\cite{Cho2007Removing} aims at
+recovering sharp image from a blurry image due to camera
+shake, object motion or out-of-focus. In this paper,they focus
+on estimating and removing spatially varying motion blur.
+
+Non-uniform deblurring has attracted much
+attention in recent years. Methods in\cite{Gupta2010Single}\cite{Hirsch2011Fast} work
+on non-uniform blur caused by camera rotations, in-plane
+translations or forward out-of-plane translations. They are
+effective for removing non-uniform blur consistent with
+these motion assumptions. Another category of approaches
+works on non-uniform motion blur caused by object motion.
+They estimate blur kernels by analyzing image statistics, blur spectrum, or with a learning approach using
+hand-crafted features\cite{Couzini2013Learning}.Other approaches
+jointly estimate the sharp image and blur kernels using
+a sparsity prior. It is still challenging today to remove
+strongly non-uniform motion blur captured in complex
+scenes.
+
+In this work,they propose a novel deep learning-based approach
+to estimating non-uniform motion blur, followed by a patch statistics-based deblurring model adapted to nonuniform
+motion blur.They estimate the probabilities of motion
+kernels at the patch level using a convolutional neural
+network (CNN), then fuse the patch-based
+estimations into a dense field of motion kernels using a
+Markov random field (MRF) model. To fully utilize the
+CNN,they propose to extend the candidate motion kernel
+set predicted by CNN using an image rotation technique,
+which significantly boost its performance for motion kernel
+estimation. Taking advantage of the strong feature learning
+power of CNNs,they can well predict the challenging nonuniform
+motion blur that can hardly be well estimated by
+the state-of-the-art approaches.
+
+Figure~\ref{fig:1} illustrates our approach. Given a blurry image,
+we first estimate non-uniform motion blur field by a CNN
+model, then we deconvolve the blurry image. Our approach
+can effectively estimate the spatially varying motion kernels,
+which enable us to well remove the motion blur.
+\begin{figure*}
+\centering
+\includegraphics[width=15cm,height=6cm]{1}
+\caption{An example illustrating our approach. Given an image with non-uniform motion blur (left). We first estimate the field of
+non-uniform motion blur kernels by a convolutional neural network (middle), then deconvolve the blurred image (right).}
+\label{fig:1}
+\end{figure*}
+\section{RelatedWork}
+Estimating accurate motion blur kernels is essential to
+non-uniform image deblurring. In\cite{Gupta2010Single}\cite{Hirsch2011Fast}, nonuniform
+motion blur is modeled as a global camera motion,
+which basically estimates an uniform kernel in the camera
+motion space. Methods jointly estimate the
+motion kernels and sharp image. They rely on a sparsity
+prior to infer the latent sharp image for better motion kernel
+estimation. Different to them, we estimate motion blur kernels
+directly using the local patches, which does not require
+the estimation of camera motion or a latent sharp image.
+
+Another category of approaches estimates spatially
+varying motion blur based on local image features. The
+method estimates motion blur based on blur spectrum
+analysis of image patch in Fourier transform space.\cite{B2006Blind}
+predicts motion blur kernel using natural image statistics. estimates motion blur by analyzing the alpha maps of
+image edges.\cite{Couzini2013Learning} learns a regression function to predict motion
+blur kernel based on some hand-crafted features. Different
+to them, we estimate motion blur kernels using a convolutional
+neural network, followed by a carefully designed
+motion kernel extension method and MRF model to predict a dense field of motion kernels.This approach can well estimate
+complex and strong motion blur, which can hardly be
+well estimated by the previous approaches.
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
