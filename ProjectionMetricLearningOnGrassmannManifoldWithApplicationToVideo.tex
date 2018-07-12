@@ -1,0 +1,56 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 12 2018}
+
+\title{Projection Metric Learning on Grassmann Manifold with Application to Video based Face Recognition}
+\begin{document}
+\maketitle
+\begin{abstract}
+In video based face recognition, great success has been made by representing videos as linear subspaces, which typically lie in a special type of non-Euclidean space known as Grassmann manifold.They propose a novel method to learn the Projection Metric directly on Grassmann manifold rather than in Hilbert space. From the perspective of manifold learning,this method can be regarded as performing a geometry-aware dimensionality reduction from the original Grassmann manifold to a lower-dimensional, more discriminative Grassmann manifold where more favorable classification
+can be achieved. Experiments on several real-world video face datasets demonstrate that the proposed method yields competitive performance compared with the state-of the-art algorithms.
+\end{abstract}
+\section{Introduction}
+Nowadays, linear subspaces have proven a powerful representation for video based face recognition\cite{Chen2013Improved}\cite{Ham2008Extended}\cite{Hamm2008Grassmann}, where each video can be treated as a set of face images without considering temporal information. As well recognized, a set of face images of a single person can be well approximated by a low dimensional linear subspace. The benefits of using subspaces lie in its much lower computational cost of comparing large data sets and its well justified capacity of modeling complex appearance variations in the set data\cite{Hamm2008Grassmann}. However, such advantages come along with the challenge of representing and handling the subspaces appropriately, with their unique geometric structure being concerned.
+
+In this paper,the author focus on the problem of conducting discriminant analysis on the Grassmann manifold for video based face recognition. Under the projection mapping framework, most of recent studies\cite{Ham2008Extended}\cite{Hamm2008Grassmann} exploited a series of positive definite kernel functions on Grassmann manifold to first embed the manifold into a high dimensional Hilbert space, which actually obeys Euclidean geometry. Then, the flattened manifold is mapped into a lower-dimensional Euclidean space (see Figure~\ref{fig:1} (a)-(b)-(d)-(e)). The Grassmann kernels allow us to treat the Grassmann
+manifold as if it were a Euclidean vector space. As a result, kernel learning algorithms (e.g., kernel discriminant analysis\cite{Baudat2000Generalized}) in vector spaces can be extended to their counterparts on Grassmann manifold. However, several drawbacks of traditional kernel learning algorithms are also introduced to the Grassmann manifold, such as the derivation of kernel function typically involves a complex theoretical technical problem for satisfying Mercer¡¯s theorem to generate valid Reproducing Kernel Hilbert Space (RKHS). Furthermore, the transformed data in Hilbert space are usually implicitly known1 and only a measure of similarity between them is available through the derived kernel function. Last but not least, the computational burden of constructing the involved kernel matrix is considerably high scaling with the size of data samples.
+\begin{figure*}
+\centering
+\includegraphics{1}
+\caption{Conceptual illustration of the proposed Projection Metric Learning (PML) on the Grassmann Manifold. Traditional Grassmann
+discriminant analysis methods take the away (a)-(b)-(d)-(e) to first embed the original Grassmann manifold(b) into high dimensional
+Hilbert space(d) and then learn a map from the Hilbert space to a lower-dimensional, optionally more discriminative space Rd
+(e). In contrast, the newly proposed approach goes the way (a)-(b)-(c) to learn the metric/mapping from the original Grassmann manifold(b) to a new more discriminant Grssmann manifold(c).}
+\label{fig:1}
+\end{figure*}
+\section{Conclusion}
+The author have introduced a novel discriminant analysis algorithm on the Grassmann manifold to tackle the problem of video based face recognition. Specifically,they exploited a Fisher LDA-like framework to learn the Projection Metric by mapping data from the original Grassmann manifold
+to a new more discriminant one.This new approach can not only serve as a metric learning method but also a dimensionality reduction technique for the Grassmann manifold.This experimental evaluation has demonstrated that the new technique and its coupling with other methods lead to
+state-of-the-art recognition accuracies on several challenging datasets for video based face identification/verification.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
