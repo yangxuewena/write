@@ -1,0 +1,119 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 14 2018}
+
+\title{From Categories to Subcategories: Large-scale Image Classification with Partial Class Label Refinement}
+\begin{document}
+\maketitle
+\begin{abstract}
+The number of digital images is growing extremely
+rapidly, and so is the need for their classification. But,
+as more images of pre-defined categories become available,
+they also become more diverse and cover finer semantic differences.
+Ultimately, the categories themselves need to be
+divided into subcategories to account for that semantic refinement.
+Image classification in general has improved significantly
+over the last few years, but it still requires a massive
+amount of manually annotated data. 
+
+In this work,the author investigate how coarse category
+labels can be used to improve the classification of subcategories.
+To this end,the author adopt the framework of Random
+Forests and propose a regularized objective function that
+takes into account relations between categories and subcategories.
+Compared to approaches that disregard the extra
+coarse labeled data,they achieve a relative improvement
+in subcategory classification accuracy of up to 22\% in our
+large-scale image classification experiments.
+\end{abstract}
+\section{Introduction}
+The research community has since then moved to more
+challenging, larger datasets, such as ImageNet, which contain thousands of categories and millions of images. In
+such datasets, categories are often organized in a hierarchy.
+The deeper one goes in the hierarchy, the finer the categories
+are and annotated training data becomes rare. In order to obtain
+training data for fine subcategories, a natural approach
+is to search for images of coarser categories and refine the
+labels. This can be very expensive, especially if the subcategories
+require expert knowledge\cite{Jia2013Fine} (e.g., breeds of dogs,
+bird or flower species, etc.). In this work,the author are interested
+in such a scenario where only a subset of the training data
+is annotated with fine subcategory labels while the rest has
+only coarse category labels (cf . Figure~\ref{fig:1}).
+\begin{figure}
+\centering
+\includegraphics[width=8cm,height=5cm]{1}
+\caption{Given training data annotated with a set of categories
+like ¡°feline¡±, our goal is to refine the classification
+into subcategories like ¡°cat¡± and ¡°lion¡±. We assume that the
+refined labels are available only for a subset of the training
+data Sfine, while for the rest, Scoarse, subcategory labels
+are not available.}
+\label{fig:1}
+\end{figure}
+\section{Related Work}
+Image classification on large-scale data sets has gained
+much attention in recent years. While deep convolutional
+networks (CNN) achieve high classification accuracy
+\cite{Krizhevsky2012ImageNet}, they are computationally intensive and take
+weeks to train. Simpler classifiers, such as nearest class
+mean classifiers (NCM) combined with a learned metric\cite{Mensink2013Distance}, proved to be a viable alternative with much
+shorter running times and near-zero costs for integrating
+new classes. In~\cite{Gilliam2014Incremental}, NCMs were integrated in a random
+forest framework which increased the performance and
+enabled fast incremental learning on a large scale. In this
+work,the author address the problem of learning a classifier for
+the finest category level when only a part of the training
+data is annotated at that level, while the other training samples
+have only the labels of a coarser level. This is related
+to approaches for semi-supervised or transfer learning.
+\section{Regularized NCM Forests}
+NCM forests have been shown to provide a good tradeoff between training time and accuracy for large-scale image
+classification\cite{Gilliam2014Incremental}.The author first briefly discuss NCM forests.They propose a novel objective
+function for training NCM forests, which takes into account
+the information gain and the computational cost of a splitting
+function to automatically set important parameters of
+NCM forests. In this experiments,they show that this modification
+improves performance.They then proceed
+to show how their classification accuracy can be increased
+when only a fraction of the training labels are refined.
+\section{Conclusion}
+In this paper,the author have addressed the problem of learning
+subcategory classifiers when only a fraction of the training
+data is labeled with fine labels while the rest only has labels
+of coarser categories. To this end,they proposed to use
+random forests based on nearest class mean classifiers and
+extended the method by introducing a regularized objective
+function for training.They also experimentally showed
+that the additional training data with the category-only labels
+improves the classification of sub-categories up to 22\%
+in a large-scale setting. Finally,they have presented experimental
+evidence that the approaches taking into account the
+hierarchical relations between categories and subcategories
+perform better than approaches ignoring these relations.
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
