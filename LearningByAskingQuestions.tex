@@ -1,0 +1,120 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 18 2018}
+
+\title{Learning by Asking Questions}
+\begin{document}
+\maketitle
+\begin{abstract}
+In this paper,the author introduce an interactive learning framework for the
+development and testing of intelligent visual systems, called
+learning-by-asking (LBA).They explore LBA in context of the
+Visual Question Answering (VQA) task. LBA differs from
+standard VQA training in that most questions are not ob-
+served during training time, and the learner must ask ques-
+tions it wants answers to. Thus, LBA more closely mim-
+ics natural learning and has the potential to be more data-
+efficient than the traditional VQA setting.They present a
+model that performs LBA on the CLEVR dataset, and show
+that it automatically discovers an easy-to-hard curriculum
+when learning interactively from an oracle. Our LBA gener-
+ated data consistently matches or outperforms the CLEVR
+train data and is more sample efficient.The author also show that
+the model asks questions that generalize to state-of-the-art
+VQA models and to novel test time distributions.
+\end{abstract}
+\section{Introduction}
+Machine learning models have led to remarkable
+progress in visual recognition. However, while the training
+data that is fed into these models is crucially important,
+it is typically treated as predetermined, static information.
+The current models are passive in nature: they rely on training
+data curated by humans and have no control over this
+supervision. This is in stark contrast to the way we humans
+learn ¡ª by interacting with our environment to gain information.
+The interactive nature of human learning makes
+it sample efficient (there is less redundancy during training)
+and also yields a learning curriculum (we ask for more complex
+knowledge as we learn).
+
+In this paper,the author argue that next-generation recognition
+systems need to have agency ¡ª the ability to decide what
+information they need and how to get it.They explore this in
+the context of visual question answering (VQA).
+Instead of training on a fixed, large-scale dataset, we propose
+an alternative interactive VQA setup called learning-
+by-asking (LBA): at training time, the learner receives only images and decides what questions to ask. Questions asked
+by the learner are answered by an oracle (human supervision).
+At test-time, LBA is evaluated exactly like VQA using
+well understood metrics.
+\section{Related Work}
+Visual question answering (VQA) is a surrogate task
+designed to assess a system¡¯s ability to thoroughly understand
+images. It has gained popularity in recent years due
+to the release of several benchmark datasets\cite{Malinowski2014A}. Motivated
+by the well-studied difficulty of analyzing results on
+real-world VQA datasets\cite{Jabri2016Revisiting}\cite{Zhang2016Yin}, Johnson et al. [23] recently
+proposed a more controlled, synthetic VQA dataset
+that we adopt in this work.
+
+Visual question generation (VQG) was recently proposed
+as an alternative to image captioning.
+Our work is related to VQG in the sense that we require the
+learner to generate questions about images, however, our
+objective in doing so is different. Whereas VQG focuses on
+asking questions that are relevant to the image content, LBA
+requires the learner to ask questions that are both relevant
+and informative to the learner when answered.
+
+Active learning (AL) involves a collection of unlabeled
+examples and a learner that selects which samples will be
+labeled by an oracle. Common selection
+criteria include entropy\cite{Joshi2009Multi}, boosting the margin for classifiers and expected informativeness.
+
+\section{Approach}
+They propose an LBA agent built from three modules: (1) a question proposal module that generates a set of question
+proposals for an input image; (2) a question answering
+module (or VQA model) that predicts answers from (I, q)
+pairs; and (3) a question selection module that looks at
+both the answering module¡¯s state and the proposal module¡¯s
+questions to pick a single question to ask the oracle.
+After receiving the oracle¡¯s answer, the agent creates a tuple
+(I, q, a) that is used as the online learning signal for all
+three modules. Each of the modules is described in a separate
+subsection below; the interactions between them are
+illustrated in Figure~\ref{fig:1}.
+\begin{figure*}
+\centering
+\includegraphics[width=18cm,height=6cm]{1}
+\caption{The approach to the learning-by-asking setting for VQA. Given an image I, the agent generates a diverse set of questions using a question generator g. It then filters out ¡°irrelevant¡± questions using a relevance model r to produce a list of question proposals. The agent then answers its own questions using the VQA model v. With these predicted answers and its self-knowledge of past performance, it selects one question from the proposals to be answered by the oracle. The oracle provides answer-level supervision from which the agent learns to ask informative questions in subsequent iterations.}
+\label{fig:1}
+\end{figure*}
+
+
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
