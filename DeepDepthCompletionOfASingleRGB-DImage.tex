@@ -1,0 +1,127 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 20 2018}
+
+\title{Deep Depth Completion of a Single RGB-D Image}
+\begin{document}
+\maketitle
+\begin{abstract}
+The goal of this work is to complete the depth channel of
+an RGB-D image. Commodity-grade depth cameras often
+fail to sense depth for shiny, bright, transparent, and distant
+surfaces. To address this problem, the author train a deep network
+that takes an RGB image as input and predicts dense surface
+normals and occlusion boundaries. Those predictions
+are then combined with raw depth observations provided by
+the RGB-D camera to solve for depths for all pixels, including
+those missing in the original observation. This method
+was chosen over others (e.g., inpainting depths directly) as
+the result of extensive experiments with a new depth completion
+benchmark dataset, where holes are filled in training
+data through the rendering of surface reconstructions created
+from multiview RGB-D scans. Experiments with different
+network inputs, depth representations, loss functions,
+optimization methods, inpainting methods, and deep depth
+estimation networks show that our proposed approach provides
+better depth completions than these alternatives.
+\end{abstract}
+\section{Introduction}
+Depth sensing has become pervasive in applications
+as diverse as autonomous driving, augmented reality, and
+scene reconstruction. Despite recent advances in depth
+sensing technology, commodity-level RGB-D cameras like
+Microsoft Kinect, Intel RealSense, and Google Tango still
+produce depth images with missing data when surfaces are
+too glossy, bright, thin, close, or far from the camera. These
+problems appear when rooms are large, surfaces are shiny,
+and strong lighting is abundant ¨C e.g., in museums, hospitals,
+classrooms, stores, etc. Even in homes, depth images
+often are missing more than 50\% of the pixels (Figure~\ref{fig:1}).
+\begin{figure}
+\centering
+\includegraphics[width=8cm,height=6cm]{1}
+\caption{Using surface normals to solve for depth completion.
+(a) An example of where depth cannot be solved from surface normal.
+(b) The area missing depth is marked in red. The red arrow
+shows paths on which depth cannot be integrated from surface normals.
+However in real-world images, there are usually many paths
+through connected neighboring pixels (along floors, ceilings, etc.)
+over which depths can be integrated (green arrows).}
+\label{fig:1}
+\end{figure}
+\section{Related Work}
+There has been a large amount of prior work on depth estimation, inpainting, and processing.
+
+Depth estimation from a monocular
+color image is a long-standing problem in computer vision.
+Classic methods include shape-from-shading and
+shape-from-defocus\cite{Suwajanakorn2015Depth}. Other early methods were based
+on hand-tuned models and/or assumptions about surface
+orientations\cite{Saxena2009Make3D}. Newer methods treat depth estimation
+as a machine learning problem, most recently using
+deep networks. For example, Eigen et al. first used a multiscale convolutional network to regress from color
+images to depths\cite{Eigen2015Predicting}\cite{Eigen2014Depth}.
+
+Many methods have been proposed for
+filling holes in depth channels of RGB-D images, including
+ones that employ smoothness priors, fast marching
+methods, Navier-Stokes, anisotropic diffusion, background surface extrapolation,
+color-depth edge alignment, low-rank matrix
+completion, tensor voting, Mumford-Shah functional
+optimization, joint optimization with other properties
+of intrinsic images, and patch-based image synthesis.
+\section{Method}
+In this paper,the author investigate how to use a deep network to
+complete the depth channel of a single RGB-D image.The
+investigation focuses on the following questions: ¡°how can
+they get training data for depth completion?,¡± ¡°what depth
+representation should they use?,¡± and ¡°how should cues from
+color and depth be combined?.¡±
+\subsection{Dateset}
+To create the dataset,the author utilize existing surface
+meshes reconstructed from multi-view RGB-D scans
+of large environments. There are several datasets of this
+type, including Matterport3D, ScanNet, SceneNN, and SUN3D, to name a few.They use Matterport3D.
+For each scene,they extract a triangle mesh M with
+x1-6 million triangles per room from a global surface reconstruction
+using screened Poisson surface reconstruction. Then, for a sampling of RGB-D images in the scene,
+the author render the reconstructed mesh M from the camera pose
+of the image viewpoint to acquire a completed depth image.
+\subsection{Depth Representation}
+The author focus on predicting surface normals and
+occlusion boundaries. Since normals are differential surface
+properties, they depend only on local neighborhoods
+of pixels. Moreover, they relate strongly to local lighting
+variations directly observable in a color image. For
+these reasons, previous works on dense prediction of surface
+normals from color images produce excellent results\cite{Eigen2015Predicting}. Similarly, occlusion boundaries produce
+local patterns in pixels (e.g., edges), and so they usually can
+be robustly detected with a deep network.
+
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
