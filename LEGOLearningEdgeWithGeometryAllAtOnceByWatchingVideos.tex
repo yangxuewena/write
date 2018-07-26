@@ -1,0 +1,95 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 26 2018}
+
+\title{Recurrent Convolutional Neural Network for Object Recognition}
+\begin{document}
+\maketitle
+\begin{abstract}
+Learning to estimate 3D geometry in a single image by
+watching unlabeled videos via deep convolutional network
+is attracting significant attention. In this paper,the author introduce
+a ¡°3D as-smooth-as-possible (3D-ASAP)¡± prior inside
+the pipeline, which enables joint estimation of edges
+and 3D scene, yielding results with significant improvement
+in accuracy for fine detailed structures. Specifically,
+they define the 3D-ASAP prior by requiring that any two
+points recovered in 3D from an image should lie on an existing
+planar surface if no other cues provided.They design
+an unsupervised framework that Learns Edges and Geometry
+(depth, normal) all at Once (LEGO). The predicted
+edges are embedded into depth and surface normal smoothness
+terms, where pixels without edges in-between are constrained
+to satisfy the prior. In their framework, the predicted
+depths, normals and edges are forced to be consistent all the
+time.
+\end{abstract}
+\section{Introduction}
+Recently, impressive progress\cite{Godard2016Unsupervised}\cite{Zhou2017Unsupervised} has been made
+to mimic detailed 3D reconstruction by training a deep network
+taking only unlabeled videos or stereo images as input
+and testing on monocular image, yielding even better depth
+estimation results than those of supervised methods\cite{Eigen2014Depth}
+in outdoor scenarios. The core underlying idea is the supervision
+by view synthesis, where the frame of one view
+(source) is warped to another (target) based on the predicted
+
+\section{Related Work}
+Geometric based methods estimate 3D from a given video with
+feature matching, such as SFM, SLAM and
+DTAM, which could be effective and efficient in many
+cases.Deep neural networks (DCN) developed in recent years,
+e.g.VGG and ResNet, provide strong feature representation.
+Dense geometry, i.e., pixel-wise depth and
+normal maps, can be readily estimated from a single image\cite{Eigen2015Predicting}. The learned CNN model shows
+significant improvement compared to other methods based
+on hand-crafted features.Motivated by traditional
+methods, videos, which are easier to obtain and
+hold richer 3D information. Motivated by traditional methods
+like SFM and DTAM, lots of CNN based methods are
+proposed to do single view geometry estimation with supervision
+from vieos, and yield impressive progress.Long range and non-local spatial
+regularization has been vastly explored in classical
+graphical models like CRF\cite{Lafferty2001Conditional}, where nodes beyond the
+neighboring are connected, and the smoothness in-between
+are learned with high-order CRF or densely-connected
+CRF.
+
+\section{Conclusion}
+In this paper,the author proposed LEGO, an unsupervised
+framework for joint depth, normal and edge learning. A
+novel 3D-ASAP prior is proposed to better regularize the
+learning of scene layout. This regularization jointly considers
+the three important descriptors of 3D scene and improves
+the results on all tasks: depth, normal and edge
+estimation.They conducted comprehensive experiments to
+present the performance of LEGO. On KITTI dataset,
+LEGO achieves SOTA performance on both depth and normal
+evaluation. For edge evaluation, LEGO outperformes
+the other methods by a large margin on Cityscapes dataset.
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
