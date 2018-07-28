@@ -1,0 +1,85 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+July 28 2018}
+
+\title{Recurrent Convolutional Neural Network for Object Recognition}
+\begin{document}
+\maketitle
+\begin{abstract}
+In recent years, the convolutional neural network (CNN)
+has achieved great success in many computer vision tasks.
+Partially inspired by neuroscience, CNN shares many properties
+with the visual system of the brain. A prominent difference
+is that CNN is typically a feed-forward architecture
+while in the visual system recurrent connections are abundant.
+Inspired by this fact, we propose a recurrent CNN
+(RCNN) for object recognition by incorporating recurrent
+connections into each convolutional layer. Though the input
+is static, the activities of RCNN units evolve over time
+so that the activity of each unit is modulated by the activities
+of its neighboring units. This property enhances
+the ability of the model to integrate the context information,
+which is important for object recognition. Like other
+recurrent neural networks, unfolding the RCNN through
+time can result in an arbitrarily deep network with a fixed
+number of parameters. Furthermore, the unfolded network
+has multiple paths, which can facilitate the learning process.
+The model is tested on four benchmark object recognition
+datasets: CIFAR-10, CIFAR-100, MNIST and SVHN.
+With fewer trainable parameters, RCNN outperforms the
+state-of-the-art models on all of these datasets. Increasing
+the number of parameters leads to even better performance.
+These results demonstrate the advantage of the recurrent
+structure over purely feed-forward structure for object
+recognition.
+\end{abstract}
+\section{Introduction}
+The past few years have witnessed the bloom of convolutional neural network (CNN) in computer vision. Over many benchmark datasets CNN has substantially advanced the state-of-the-art accuracies of object recognition\cite{Krizhevsky2012ImageNet}\cite{Chatfield2014Return}\cite{Lin2013Network}. For example, after training on 1.2 million images from ImageNet, CNN has achieved better performance than handcraft features by a significant margin in
+classifying objects into 1000 categories. Furthermore, the pretrained CNN features on this dataset have been transfered to other datasets to achieve remarkable results.
+
+CNN is a type of artificial neural network, which originates from neuroscience dating back to the proposal of the first artificial neuron in 1943.The context is important for object recognition (Figure~\ref{fig:1}). A feed-forward model can only capture the context (e.g.,the face in Figure~\ref{fig:1}) in higher layers where units have larger RFs, but this information cannot modulate the activities of units in lower layers responsible for recognizing smaller objects (e.g., the nose in Figure~\ref{fig:1}). To utilize this information, one strategy is to use top-down (or feedback) connections to propagate it downwards, which is adopted in the convolutional deep belief networks (CDBN). In this study,the author take a different strategy, that is, use recurrent
+connections within the same layer of deep learning models.It is expected that, equipped with context modulation ability,these lateral connections may boost the performance of deep learning models.
+\begin{figure}
+\centering
+\includegraphics{1}
+\caption{Importance of context for object recognition. Without the context (face), it is hard to recognize the black curve in the middle area as a nose.}
+\label{fig:1}
+\end{figure}
+In the paper,the author present a recurrent CNN for static object
+recognition. The architecture is illustrated in Figure~\ref{fig:2}, where both feed-forward and recurrent connections have local connectivity and shared weights among different locations.This architecture is very similar to the recurrent multilayer perceptron (RMLP) which is often used for dynamic control \cite{Fernandez1990Nonlinear}\cite{Puskorius1994Neurocontrol} (Figure~\ref{fig:2}). The main difference is that the full connections in RMLP are replaced by shared local connections, just as the difference between MLP and CNN. For this reason, the proposed model is called the recurrent convolutional neural network (RCNN).
+\begin{figure}
+\centering
+\includegraphics{2}
+\caption{Illustration of the architectures of CNN, RMLP and RCNN. For each model two hidden layers are shown.}
+\label{fig:2}
+\end{figure}
+
+\section{Conclusion}
+The author proposed a recurrent convolutional neural network (RCNN) for (static) object recognition. The basic idea was to add recurrent connections within every convolutional layer of the feed-forward CNN. This structure enabled the units to be modulated by other units in the same layer, which enhanced the capability of the CNN to capture statistical regularities in the context of the object. The recurrent connections increased the depth of the original CNN while kept the number of parameters constant by weight sharing between layers. Experimental results demonstrated the advantage of RCNN over CNN for object recognition. Over four benchmark datasets, with fewer parameters RCNN outperformed the state-of-the-art models. Increasing the number of parameters led to even better performance. This work shows that it is possible to boost the performance of CNN by incorporating more facts of the brain. It would be interesting to see other fact of the brain to be integrated into deep learning models in future.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
