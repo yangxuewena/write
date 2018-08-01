@@ -1,0 +1,106 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+August 1 2018}
+
+\title{Rich feature hierarchies for accurate object detection and semantic segmentation}
+\begin{document}
+\maketitle
+\begin{abstract}
+Object detection performance, as measured on the
+canonical PASCAL VOC dataset, has plateaued in the last
+few years. The best-performing methods are complex ensemble
+systems that typically combine multiple low-level
+image features with high-level context. In this paper, the author
+propose a simple and scalable detection algorithm that improves
+mean average precision (mAP) by more than 30\%
+relative to the previous best result on VOC 2012¡ªachieving
+a mAP of 53.3\%.Since they combine region proposals
+with CNNs, they call our method R-CNN: Regions with CNN
+features. They also compare R-CNN to OverFeat, a recently
+proposed sliding-window detector based on a similar CNN
+architecture. They find that R-CNN outperforms OverFeat
+by a large margin on the 200-class ILSVRC2013 detection
+dataset.
+\end{abstract}
+\section{Introduction}
+CNNs saw heavy use in the 1990s (e.g., [27]), but then
+fell out of fashion with the rise of support vector machines.
+In 2012, Krizhevsky~\emph{et al.}\cite{Krizhevsky2012ImageNet} rekindled interest in CNNs
+by showing substantially higher image classification accuracy
+on the ImageNet Large Scale Visual Recognition Challenge
+(ILSVRC)\cite{Deng2009ImageNet}. Their success resulted from training
+a large CNN on 1.2 million labeled images, together
+with a few twists on LeCun¡¯s CNN.
+
+Unlike image classification, detection requires localizing
+(likely many) objects within an image. One approach
+frames localization as a regression problem. However, work
+from Szegedy~\emph{et al.}\cite{Szegedy2013Deep}, concurrent with this method, indicates
+that this strategy may not fare well in practice (they
+report a mAP of 30.5\% on VOC 2007 compared to the
+58.5\% achieved by this method). An alternative is to build a
+sliding-window detector. CNNs have been used in this way
+for at least two decades, typically on constrained object categories,
+such as faces and pedestrians\cite{Sermanet2013Pedestrian}. In order
+to maintain high spatial resolution, these CNNs typically
+only have two convolutional and pooling layers. The author also
+considered adopting a sliding-window approach. However,
+units high up in our network, which has five convolutional
+layers, have very large receptive fields (195$\times$195 pixels)
+and strides (32$\times$32 pixels) in the input image, which makes
+precise localization within the sliding-window paradigm an
+open technical challenge.
+\section{Object detection with R-CNN}
+This object detection system consists of three modules.
+The first generates category-independent region proposals.
+These proposals define the set of candidate detections available
+to the detector. The second module is a large convolutional
+neural network that extracts a fixed-length feature
+vector from each region. The third module is a set of classspecific
+linear SVMs. In this section, the author present their design
+decisions for each module, describe their test-time usage,
+detail how their parameters are learned, and show detection
+results on PASCAL VOC 2010-12 and on ILSVRC2013.
+
+\section{Conclusion}
+The author achieved this performance through two insights. The
+first is to apply high-capacity convolutional neural networks
+to bottom-up region proposals in order to localize
+and segment objects. The second is a paradigm for training
+large CNNs when labeled training data is scarce. They
+show that it is highly effective to pre-train the network¡ª
+with supervision¡ªfor a auxiliary task with abundant data
+(image classification) and then to fine-tune the network for
+the target task where data is scarce (detection). They conjecture
+that the ¡°supervised pre-training/domain-specific finetuning¡±
+paradigm will be highly effective for a variety of
+data-scarce vision problems.
+
+
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
