@@ -1,0 +1,102 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+August 19 2018}
+
+\title{Scale-Transferrable Object Detection}
+\begin{document}
+\maketitle
+
+\section{Scale-Transferrable Detection Network}
+In this section,the author first introduce the base network which
+is our feature extraction network component. They use
+DenseNet\cite{Huang2017Densely} as our base network. In each dense block
+of DenseNet, for each layer, its feature map is used as inputs
+for all subsequent layers. The output of the last layer
+of the dense block has highest number of channels and is
+suitable as input for our scale-transfer layer which expands
+the width and height of the feature map by compressing the
+number of channels. Then the author describe the scale-transfer
+module that produces feature maps at different scales. Next,they describe the entire object detection/location prediction
+network architecture and the network training details.
+\subsection{Base Network : DenseNet}
+The author use DenseNet-169\cite{Huang2017Densely} as the base network for feature
+extraction and do pre-training on the ILSVRC CLSLOC
+dataset\cite{Russakovsky2015ImageNet}. DenseNet is a network with deep supervision.
+In each dense block of DenseNet, the output of
+each layer contains the output of all previous layers, and
+thus incorporates low-level and high-level features of the
+input image, which is suitable for object detection. Inspired
+by DSOD, the author replace the input layers (7$\times$7 convolution
+layer, stride = 2 followed by a 3$\times$3 max pooling
+layer, stride = 2) into three 3$\times$3 convolution layers and one
+2$\times$2 mean pooling layer. The stride of the first convolution
+layer is 2 and the others are 1. The output channels for all
+three convolution layers are 64. They call these layers ¡°stem
+block¡±.Experiments show that this simple substitution can significantly
+improve the accuracy of object detection. One explanation could be that the input
+layers in the original DenseNet-169 have lost much information
+due to two consecutive down sampling. This will
+impair the performance of object detection, especially for
+small objects.
+\subsection{High Efficiency ScaleTransfer Module}
+Scale problem lies in the heart of object detection. Combining
+predictions from multiple feature maps with different
+resolutions are beneficial for detecting multi-scale objects.
+However, as shown in Figure~\ref{fig:1}, in the last dense block of
+DenseNet, all outputs of layers have the same width and
+height, except for the number of channels. For example,
+when the input image is 300$\times$300, the last dense block dimension
+of DenseNet-169 is 9$\times$9. A simple approach is to
+predict directly using high-resolution feature maps of low
+layers, similar to SSD [22]. However, the low-level feature
+map lacks semantic information about objects, which may
+cause low performance on object detection.
+\begin{figure}
+\centering
+\includegraphics[width=8cm,height=6cm]{1}
+\caption{Importance of context for object recognition. Without the context (face), it is hard to recognize the black curve in the middle area as a nose.}
+\label{fig:1}
+\end{figure}
+In order to obtain different resolution feature maps with
+strong semantic information, the author develop a module named scale-transfer module. Scale-transfer module is very efficient
+and can be directly embedded into the dense block in
+DenseNet. To get strong semantic feature maps, they make
+use of the network structure of DenseNet to transfer the lowlevel
+features directly to the top of the network through the
+concat operation. The feature map at the top of the network
+has both low-level detail information and high-level semantic
+information so as to improve the performance of object
+localization and classification.
+
+They get feature maps of different scales from the last
+dense block of DenseNet. In scale-transfer module, they
+use the mean pooling layer to obtain low-resolution feature
+maps. For high-resolution feature maps, they use a technique
+called scale-transfer layer.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
