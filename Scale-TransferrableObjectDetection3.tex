@@ -1,0 +1,72 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{times}
+
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green,backref=page]{hyperref}
+
+\author{Xuewen Yang\\\\
+August 21 2018}
+
+\title{Deformable Part Models are Convolutional Neural Networks}
+\begin{document}
+\maketitle
+\section{Object Localization Module}
+The Scale-Transferrable Detection Network (STDN)
+consists of a base network and two task specific prediction
+subnetworks. The role of the base network is to do feature extraction. The first subnet is used for object classification,
+and the second subnet is used for bounding box position
+regression.
+\subsection{Anchor Boxes.}
+The author associate a set of default anchor boxes with each feature
+map which is got by scale-transfer module. The scale
+of anchor boxes is the same as that of SSD\cite{Liu2015SSD}. Following
+DSSD, they use [1:6; 2:0; 3:0] aspect ratios at every prediction
+layer. Anchors are matched to any ground truth with
+intersection-over-union (IoU) higher than a threshold (0:5).
+The remaining anchors are treated as background. After the
+matching step, most of the default anchor boxes are negatives
+(no matched). They use hard negative mining so that the
+ratio between the negatives and positives is at most 3 : 1.
+\subsection{Classification Subnet.}
+The role of the classification subnet is to predict the probability
+of each anchor belonging to a category. It contains
+a 1$\times$1 convolution layer and two 3$\times$3 convolution layers.
+Each convolution layer has a batchnorm layer\cite{Ioffe2015Batch} and
+a relu layer in front of it. The last convolution layer has K A
+filters, where K is the number of object classes and A is the
+number of anchors per spatial location. The classification
+loss is the softmax loss over multiple classes confidences.
+\subsection{Box Regression Subnet.}
+The purpose of this subnet is to regress the offset from each
+anchor box to the matched ground-truth object. The box
+regression subnet has the same structure as the classification
+subnet except that its last convolution layer has 4A filters.
+Smooth L1 loss is used for the localization loss and the
+bounding box loss is only used for positive samples
+\subsection{Training Settings.}
+Our detector is based on the MXNet\cite{Gidaris2015Object} framework. All our
+models are trained with SGD solver on NVIDIA TITAN Xp
+GPU. We follow almost the same training strategy as SSD\cite{Liu2015SSD}, including a random expansion data augmentation trick
+which is helpful for detecting small objects.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{1}
+}
+
+\end{document}
